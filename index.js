@@ -5,6 +5,9 @@ const connection = require('./configs/connection')
 const categoriController = require('./app/categories/CategoryController')
 const articleController = require('./app/articles/ArticleController')
 
+const Category = require('./app/categories/Category')
+const Article = require('./app/articles/Article')
+
 const app = express()
 
 app.set('view engine', 'ejs')
