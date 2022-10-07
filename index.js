@@ -25,7 +25,51 @@ app.use('/', categoriController)
 app.use('/', articleController)
 
 app.get('/', (req, res) => {
-	res.render("index")
+	Article
+		.findAll({
+			include: [{ model: Category }],
+			order : [
+				['id','DESC']
+			]
+		})
+		.then(articles => {
+			res.render('index', { articles })
+		})
+})
+
+app.get('/article/:slug', (req, res) => {
+	let slug = req.params.slug
+		
+	Article
+		.findOne({
+			include: [{ model: Category }],
+			where: {
+				slug
+			}
+		})
+		.then(article => {
+			if (!article)
+				res.redirect('/')
+
+			res.render('articles', { article })
+		})
+})
+
+app.get('/category/:slug', (req, res) => {
+	let slug = req.params.slug
+		
+	Category
+		.findOne({
+			where: { slug },
+			include: [{ model: Article }]
+		})
+		.then(category => { 
+			if (!category)
+				res.redirect('/')
+
+			res.render('index', { category, articles: category.articles })
+			
+		})
 })
 
 app.listen(3000, () => console.log("Server rodando!"))

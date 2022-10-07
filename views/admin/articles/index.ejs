@@ -4,28 +4,30 @@
 <div class="container">
 	<div class="card">
 		<div class="card-header">
-			<h2>Listage de Categorias</h2>
-			<a href="/admin/categories/new" class="btn btn-primary">Nova Categoria</a>
+			<h2>Listagem de Artigos</h2>
+			<a href="/admin/articles/new" class="btn btn-primary">Novo Artigo</a>
 		</div>
 		<div class="card-body">
 			<table class="table table-bordered table-striped">
 				<thead>
 					<tr>
 						<th width="5%" class="text-center">ID</th>
-						<th>Categoria</th>
+						<th>Artigo</th>
 						<th>Slug</th>
+						<th>Categoria</th>
 						<th width="15%" class="text-center">Ações</th>
 					</tr>
 				</thead>
 				<tbody>
-					<% result.categories.rows.forEach(category => { %>
+					<% result.articles.rows.forEach(article => { %>
 						<tr>
-							<td class="text-center"><%= category.id %></td>
-							<td><%= category.title %></td>
-							<td><%= category.slug %></td>
+							<td class="text-center"><%= article.id %></td>
+							<td><%= article.title %></td>
+							<td><%= article.slug %></td>
+							<td><%= article.category.title %></td>
 							<td class="text-center">
-								<a href="/admin/categories/edit/<%= category.id %>" class="btn btn-sm btn-warning">Editar</a>
-								<a href="/admin/categories/delete/<%= category.id %>" class="btn btn-sm btn-danger confirmDelete">Deletar</a>
+								<a href="/admin/articles/edit/<%= article.id %>" class="btn btn-sm btn-warning">Editar</a>
+								<a href="/admin/articles/delete/<%= article.id %>" class="btn btn-sm btn-danger confirmDelete">Deletar</a>
 							</td>
 						</tr>
 					<% }) %>
@@ -36,10 +38,10 @@
 			<div class="row">
 				<div class="col-12">
 					<% if (result.page > 1) { %>
-						<a href="/admin/categories/<%= result.page - 1 %>"><-- Previus</a>
+						<a href="/admin/articles/<%= result.page - 1 %>"><-- Previus</a>
 					<% } %>
 					<% if (result.next) { %>
-						<a href="/admin/categories/<%= result.page + 1 %>">Next --></a>
+						<a href="/admin/articles/<%= result.page + 1 %>">Next --></a>
 					<% } %>
 				</div>
 			</div>

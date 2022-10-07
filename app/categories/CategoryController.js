@@ -4,12 +4,6 @@ const Category = require('./Category')
 
 const router = express.Router()
 
-router.get('/admin/categories', (req, res) => {
-	Category.findAll().then(categories => {
-		res.render('admin/categories/index', { categories })
-	})
-})
-
 router.get('/admin/categories/new', (req, res) => res.render('admin/categories/new'))
 
 router.post('/admin/categories/save', (req, res) => {
@@ -59,6 +53,27 @@ router.post('/admin/categories/update/:id', (req, res) => {
 		.update({title, slug: slugify(title, { lower: true })},{ 
 			where: { id }
 		}).then(() => res.redirect('/admin/categories'))
+})
+
+router.get('/admin/categories/:page?', (req, res) => {
+	let page = req.params.page != undefined ? parseInt(req.params.page) : 1
+	let limit = 2
+	let offset = page > 1 ? page * limit : 0
+	
+	Category
+		.findAndCountAll({
+			order: [
+				['id','Desc']
+			],
+			offset,
+			limit
+		})
+		.then(categories => {
+			let next = offset + limit < categories.count ?? false
+			let result = { next, categories, page }
+
+			res.render('admin/categories/index', { result })
+		})
 })
 
 module.exports = router

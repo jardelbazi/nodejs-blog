@@ -1,0 +1,19 @@
+<%- include('partials/header') %>
+<%- include('partials/navbar') %>
+
+<div class="container">
+	<div class="card">
+		<div class="card-header">
+			<h2><%= article.title %></h2>
+			<h5>Categoria: <a href="/category/<%= article.category.slug %>"><%= article.category.title %></a></h5>
+		</div>
+		<div class="card-body">
+			<h2><%- article.description %></h2>
+		</div>
+		<div class="card-footer">
+			<a href="/" class="btn btn-primary">Voltar</a>
+		</div>
+	</div>
+</div>
+
+<%- include('partials/footer') %>
