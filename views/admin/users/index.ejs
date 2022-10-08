@@ -1,0 +1,50 @@
+<%- include('../../partials/header') %>
+<%- include('../../partials/navbar') %>
+
+<div class="container">
+	<div class="card">
+		<div class="card-header">
+			<h2>Listagem de Usuários</h2>
+			<a href="/admin/users/new" class="btn btn-primary">Novo Usuário</a>
+		</div>
+		<div class="card-body">
+			<table class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th width="5%" class="text-center">ID</th>
+						<th>Nome</th>
+						<th>Email</th>
+						<th width="15%" class="text-center">Ações</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% result.users.rows.forEach(user => { %>
+						<tr>
+							<td class="text-center"><%= user.id %></td>
+							<td><%= user.name %></td>
+							<td><%= user.email %></td>
+							<td class="text-center">
+								<a href="/admin/users/edit/<%= user.id %>" class="btn btn-sm btn-warning">Editar</a>
+								<a href="/admin/users/delete/<%= user.id %>" class="btn btn-sm btn-danger confirmDelete">Deletar</a>
+							</td>
+						</tr>
+					<% }) %>
+				</tbody>
+			</table>
+		</div>
+		<div class="card-footer">
+			<div class="row">
+				<div class="col-12">
+					<% if (result.page > 1) { %>
+						<a href="/admin/users/<%= result.page - 1 %>"><-- Previus</a>
+					<% } %>
+					<% if (result.next) { %>
+						<a href="/admin/users/<%= result.page + 1 %>">Next --></a>
+					<% } %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<%- include('../../partials/footer') %>

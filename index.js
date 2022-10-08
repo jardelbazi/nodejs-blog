@@ -4,9 +4,11 @@ const connection = require('./configs/connection')
 
 const categoriController = require('./app/categories/CategoryController')
 const articleController = require('./app/articles/ArticleController')
+const userController = require('./app/users/UserController')
 
 const Category = require('./app/categories/Category')
 const Article = require('./app/articles/Article')
+const User = require('./app/users/User')
 
 const app = express()
 
@@ -23,6 +25,7 @@ connection
 
 app.use('/', categoriController)
 app.use('/', articleController)
+app.use('/', userController)
 
 app.get('/', (req, res) => {
 	Article
