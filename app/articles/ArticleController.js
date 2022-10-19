@@ -3,17 +3,18 @@ const slugify = require('slugify')
 
 const Article = require('./Article')
 const Category = require('../categories/Category')
+const adminAuth = require('../../middlewares/AdminAuth')
 
 const router = express.Router()
 
-router.get('/admin/articles/new', (req, res) => {
+router.get('/admin/articles/new', adminAuth, (req, res) => {
 	Category
 		.findAll().then(categories => {
 			res.render('admin/articles/new', { categories })
 		})
 })
 
-router.post('/admin/articles/save', (req, res) => {
+router.post('/admin/articles/save', adminAuth, (req, res) => {
 	let title = req.body.title
 	let categoryId = req.body.categoryId
 	let description = req.body.description
@@ -28,7 +29,7 @@ router.post('/admin/articles/save', (req, res) => {
 		.then(() => res.redirect('/admin/articles'))
 })
 
-router.get('/admin/articles/delete/:id', (req, res) => {
+router.get('/admin/articles/delete/:id', adminAuth, (req, res) => {
 	let id = req.params.id
 
 	if (isNaN(id))
@@ -41,7 +42,7 @@ router.get('/admin/articles/delete/:id', (req, res) => {
 		.then(() => res.redirect('/admin/articles'))
 })
 
-router.get('/admin/articles/edit/:id', (req, res) => {
+router.get('/admin/articles/edit/:id', adminAuth, (req, res) => {
 	let id = req.params.id
 
 	if (isNaN(id))
@@ -61,7 +62,7 @@ router.get('/admin/articles/edit/:id', (req, res) => {
 		})
 })
 
-router.post('/admin/articles/update/:id', (req, res) => {
+router.post('/admin/articles/update/:id', adminAuth, (req, res) => {
 	let id = req.params.id
 	let title = req.body.title
 	let categoryId = req.body.categoryId
@@ -82,7 +83,7 @@ router.post('/admin/articles/update/:id', (req, res) => {
 		.then(() => res.redirect('/admin/articles'))
 })
 
-router.get('/admin/articles/:page?', (req, res) => {
+router.get('/admin/articles/:page?', adminAuth, (req, res) => {
 	let page = req.params.page != undefined ? parseInt(req.params.page) : 1
 	let limit = 2
 	let offset = page > 1 ? (page - 1) * limit : 0

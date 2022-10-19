@@ -1,10 +1,11 @@
 const express = require('express')
 const slugify = require('slugify')
 const Category = require('./Category')
+const adminAuth = require('../../middlewares/AdminAuth')
 
 const router = express.Router()
 
-router.get('/admin/categories/new', (req, res) => res.render('admin/categories/new'))
+router.get('/admin/categories/new', adminAuth, (req, res) => res.render('admin/categories/new'))
 
 router.post('/admin/categories/save', (req, res) => {
 	let title = req.body.title
@@ -15,7 +16,7 @@ router.post('/admin/categories/save', (req, res) => {
 	}).then(() => res.redirect('/admin/categories'))
 })
 
-router.get('/admin/categories/delete/:id', (req, res) => {
+router.get('/admin/categories/delete/:id', adminAuth, (req, res) => {
 	let id = req.params.id
 
 	if (isNaN(id))
@@ -26,7 +27,7 @@ router.get('/admin/categories/delete/:id', (req, res) => {
 	}).then(() => res.redirect('/admin/categories'))
 })
 
-router.get('/admin/categories/edit/:id', (req, res) => {
+router.get('/admin/categories/edit/:id', adminAuth, (req, res) => {
 	let id = req.params.id
 
 	if (isNaN(id))
@@ -42,7 +43,7 @@ router.get('/admin/categories/edit/:id', (req, res) => {
 		})
 })
 
-router.post('/admin/categories/update/:id', (req, res) => {
+router.post('/admin/categories/update/:id', adminAuth, (req, res) => {
 	let id = req.params.id
 	let title = req.body.title
 
@@ -55,7 +56,7 @@ router.post('/admin/categories/update/:id', (req, res) => {
 		}).then(() => res.redirect('/admin/categories'))
 })
 
-router.get('/admin/categories/:page?', (req, res) => {
+router.get('/admin/categories/:page?', adminAuth, (req, res) => {
 	let page = req.params.page != undefined ? parseInt(req.params.page) : 1
 	let limit = 2
 	let offset = page > 1 ? page * limit : 0
